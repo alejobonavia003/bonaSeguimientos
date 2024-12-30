@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de Registros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1e1e1e;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+        }
+        h1 {
+            color: #00ff00;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            border: 2px solid #00ff00;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #222222; /* Fondo un poco más oscuro para el contenedor */
+        }
+        table {
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            background-color: #333333; /* Fondo más oscuro para la tabla */
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #111111;
+            color: #00ff00; /* Color de texto mejorado para los encabezados */
+        }
+        td {
+            background-color: #222222; /* Fondo más oscuro para las celdas */
+            color: #00ff00; /* Texto en verde brillante para las celdas */
+        }
+        .btn-info, .btn-danger, .btn-secondary {
+            background-color: #00ff00;
+            border-color: #00ff00;
+        }
+        .btn-info:hover, .btn-danger:hover, .btn-secondary:hover {
+            background-color: #111111;
+            color: #00ff00;
+            border-color: #00ff00;
+        }
+        .modal-content {
+            background-color: #222222; /* Fondo del modal más oscuro */
+            color: #00ff00;
+            border: 1px solid #00ff00;
+        }
+        .modal-header, .modal-footer {
+            background-color: #111111;
+            border-bottom: 1px solid #00ff00;
+        }
+        .modal-title {
+            color: #00ff00;
+        }
+        .btn-close {
+            color: #00ff00;
+        }
+        .btn-close:hover {
+            color: #111111;
+        }
+        /* Ajustes para los párrafos y textos dentro del modal */
+        .modal-body p {
+            color: #00ff00; /* Texto verde en el modal */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="text-center my-3">
+        <form action="/" method="GET">
+            <input type="submit" class="btn btn-outline-success" value="Volver a Inicio">
+        </form>
+    </div>
+    
+    <div class="container">
+        <h1>Historial de Registros</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Riego</th>
+                    <th>Fertilización</th>
+                    <th>Anomalías</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaRegistros"></tbody>
+        </table>
+    </div>
+
+    <!-- Modal para ver detalles -->
+    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registroModalLabel">Detalles del Registro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Fecha:</strong> <span id="detalleFecha"></span></p>
+                    <p><strong>Riego:</strong> <span id="detalleRiego"></span></p>
+                    <p><strong>Fertilización:</strong> <span id="detalleFertilizacion"></span></p>
+                    <p><strong>Anomalías:</strong> <span id="detalleAnomalias"></span></p>
+                    <p><strong>Notas:</strong> <span id="detalleNotas"></span></p>
+                    <img id="detalleFoto" alt="Foto del Registro" style="width: 100%; max-height: 300px; object-fit: cover;">
+                </div>
+                <div class="modal-footer">
+                    <button id="eliminarBtn" class="btn btn-danger">Eliminar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const registros = <%- JSON.stringify(registros) %>; // Datos desde el backend
+
+        // Función para cargar los registros en la tabla
+        function cargarRegistros() {
+            const tabla = document.getElementById("tablaRegistros");
+            tabla.innerHTML = ''; // Limpiar la tabla antes de volver a cargarla
+
+            registros.forEach((registro, index) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${registro.fecha}</td>
+                    <td>${registro.riego}</td>
+                    <td>${registro.fertilizacion}</td>
+                    <td>${registro.anomalias}</td>
+                    <td>
+                        <button class="btn btn-info btn-sm" onclick="verDetalles(${index})">Ver</button>
+                    </td>
+                `;
+                tabla.appendChild(row);
+            });
+        }
+
+        // Función para mostrar los detalles del registro en el modal
+        function verDetalles(index) {
+            const registro = registros[index];
+
+            document.getElementById("detalleFecha").innerText = registro.fecha;
+            document.getElementById("detalleRiego").innerText = registro.riego;
+            document.getElementById("detalleFertilizacion").innerText = registro.fertilizacion;
+            document.getElementById("detalleAnomalias").innerText = registro.anomalias;
+            document.getElementById("detalleNotas").innerText = registro.notas;
+            document.getElementById("detalleFoto").src = registro.foto || 'placeholder.jpg'; // Usar un placeholder si no hay foto
+
+            const modal = new bootstrap.Modal(document.getElementById('registroModal'));
+            modal.show();
+
+            document.getElementById("eliminarBtn").onclick = () => {
+                eliminarRegistro(index);
+                modal.hide();
+            };
+        }
+
+        // Función para eliminar un registro
+        function eliminarRegistro(index) {
+            registros.splice(index, 1); // Eliminar el registro del arreglo
+            cargarRegistros(); // Volver a cargar los registros después de eliminar
+        }
+
+        // Cargar los registros al iniciar la página
+        cargarRegistros();
+    </script>
+</body>
+</html>
