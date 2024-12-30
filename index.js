@@ -16,7 +16,13 @@ const port = 3000; // Definimos el puerto
 const db = new pg.Client({
     connectionString: process.env.DATABASE_URL
 });
-db.connect();
+
+db.connect()
+    .then(() => console.log("Conexión a la base de datos establecida"))
+    .catch(err => {
+        console.error("Error al conectar a la base de datos:", err);
+        process.exit(1); // Terminar el proceso si no se puede conectar
+    });
 
 
 // Middleware para analizar el cuerpo de las solicitudes
