@@ -3,8 +3,9 @@ import express from "express";
 import axios from "axios";
 import bodyParser from "body-parser";
 import pg from "pg";
+import { config } from "dotenv";
 
-
+config();
 
 const app = express(); // Definimos la app
 const port = 3000; // Definimos el puerto
@@ -13,12 +14,7 @@ const port = 3000; // Definimos el puerto
 
 //Nos conectamos a la base de datos
 const db = new pg.Client({
-    connectionString: 'postgresql://alejobonavia003:oNCSdunLYESiuE6KKsz1XMnYCtETLek1@dpg-ctpfu223esus73dhjstg-a/green_db',
-    user: "alejobonavia003",
-    host: "dpg-ctpfu223esus73dhjstg-a",
-    database: "green_db",
-    password: "oNCSdunLYESiuE6KKsz1XMnYCtETLek1",
-    port: 5432,
+    connectionString: process.env.DATABASE_URL
 });
 db.connect();
 
