@@ -13,11 +13,12 @@ const port = 3000; // Definimos el puerto
 
 //Nos conectamos a la base de datos
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "green_db",
-  password: "2836856773Ale?",
-  port: 5432,
+    connectionString: 'postgresql://alejobonavia003:oNCSdunLYESiuE6KKsz1XMnYCtETLek1@dpg-ctpfu223esus73dhjstg-a/green_db',
+    user: "alejobonavia003",
+    host: "dpg-ctpfu223esus73dhjstg-a",
+    database: "green_db",
+    password: "oNCSdunLYESiuE6KKsz1XMnYCtETLek1",
+    port: 5432,
 });
 db.connect();
 
