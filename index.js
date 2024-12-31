@@ -14,7 +14,8 @@ const port = 3000; // Definimos el puerto
 
 //Nos conectamos a la base de datos
 const db = new pg.Client({
-    connectionString: process.env.DATABASE_URL
+    connectionString: process.env.DATABASE_URL,
+    ssl: true
 });
 
 db.connect()

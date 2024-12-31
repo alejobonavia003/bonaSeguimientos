@@ -42,4 +42,3 @@ INSERT INTO historial_gastos (concepto, monto, responsable, fecha) VALUES
 ('Fertilizantes orgánicos', 1100.00, 'Lucía Martínez', '2024-12-08'),
 ('Pago de agua', 2700.00, 'Juan Pérez', '2024-12-07'),
 ('Insecticidas', 900.00, 'Ana López', '2024-12-06');
-
