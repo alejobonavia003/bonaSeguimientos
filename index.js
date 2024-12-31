@@ -34,13 +34,12 @@ app.use(express.static("public"));
 
 // Rutas
 app.get("/", async (req, res) => {
-    const imagenes = [
-        "/public/Images/juntas.jpeg",  // Ruta de la imagen 1
-        "//public/Images/gelato 2024-12-28 at 20.43.41.jpeg",  // Ruta de la imagen 2
-        "/public/Images/gato.webp"   // Ruta de la imagen 3
-    ];
+    // Fecha base: 16 de diciembre
+    const fechaInicio = new Date("2024-12-20");
+    const fechaActual = new Date();
+    const diasTranscurridos = Math.floor((fechaActual - fechaInicio) / (1000 * 60 * 60 * 24));
 
-    res.render("index", { imagenes });
+    res.render("index", {  diasTranscurridos });
 });
 
 

@@ -136,21 +136,10 @@
             </div>
         </div>
 
+        <p class="text-success">Han transcurrido <%= diasTranscurridos %> días desde la germinacion.</p>
+
         <h2 class="mb-4">Galería de Fotos</h2>
         <button class="btn btn-secondary mb-4" data-bs-toggle="modal" data-bs-target="#fotoModal">Agregar Foto</button>
-        
-        <div id="galeria" class="row row-cols-1 row-cols-md-3 g-4">
-            <% imagenes.forEach(function(imagen) { %>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="<%= imagen %>" class="card-img-top" alt="Imagen de la galería">
-                        <div class="card-body">
-                            <p class="card-text">Fecha: <%= new Date().toISOString().split("T")[0] %></p>
-                        </div>
-                    </div>
-                </div>
-            <% }); %>
-        </div>
         
         <!-- Modal para subir fotos -->
         <div class="modal fade" id="fotoModal" tabindex="-1" aria-labelledby="fotoModalLabel" aria-hidden="true">

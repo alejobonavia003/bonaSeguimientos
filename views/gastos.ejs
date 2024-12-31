@@ -29,6 +29,9 @@
             background-color: #1e1e1e;
             color: #00ff00;
         }
+        .table thead th {
+    color: #00ff00 !important; /* Asegura que los encabezados de la tabla sean verdes */
+}
         .form-control {
             background-color: #2e2e2e;
             color: #00ff00;
@@ -67,18 +70,21 @@
         }
         .table th, .table td {
             border: 1px solid #00ff00;
+            color: #00ff00 !important;
         }
         .table-striped tbody tr:nth-of-type(odd) {
             background-color: #111111;
+            color: #00ff00 !important;
         }
         .total-row {
             font-weight: bold;
             background-color: #2e2e2e;
+            color: #00ff00;
         }
     </style>
 </head>
 <body>
-
+ <!-- background-color: #2e2e2e; en .table //.table-striped tbody tr:nth-of-type(odd) {background-color: #111111;}-->
     <div class="text-center my-3">
         <form action="/" method="GET">
             <input type="submit" class="btn btn-outline-success" value="Volver a Inicio">
